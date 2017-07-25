@@ -135,7 +135,7 @@ public:
   class Data {
   public:
     /**
-     * Constructor for Template::Data
+     * Constructor构造函数 for Template::Data
      */
     // make a copy from the Token_Cache and linke all value to the key.
     Data() : _keys(0), _values(0) {
@@ -160,7 +160,7 @@ public:
 
     /**
      * set (key, value) pair to the Template::Data
-     *
+     *设置Template::Data的（键，值）对
      *  @param[in]  key     the key
      *  @param[in]  val     the value
      *  @return     bool    true on success, otherwise false
@@ -170,7 +170,7 @@ public:
         return false;
       }
 
-      int i = __Template_Token_Cache<void>::get_cache()->index(key);
+      int i = __Template_Token_Cache<void>::get_cache()->index(key);//get到字符key的编号
       if (i >= 0) {
         int len = strlen(val) + 1;
         char * new_key = new char[len];
@@ -231,7 +231,7 @@ public:
     int len = strlen(tempstr);
 
     buffer = new char[len + 1];
-    memcpy(buffer, tempstr, len + 1);
+    memcpy(buffer, tempstr, len + 1);//copy ,tempstr->buffer内存区域复制，长度未len+1
 
     num_items = 0;
     const char * s = NULL;
@@ -239,16 +239,16 @@ public:
     int right_bracket = -1;
     int left_bracket = -1;
 
-    // get number of tokens in the template
+    // get number of tokens in the template，获取template中字符的个数，不包括“{}”
     for (s = buffer; *s; ++ s) {
-      if ((*s) == '{') {
-        left_bracket = s - buffer;
-        if (right_bracket + 1 < left_bracket) {
+      if ((*s) == '{') {   //左括号
+        left_bracket = s - buffer;     
+        if (right_bracket + 1 < left_bracket) {  
           ++ num_items;
         }
       }
 
-      if ((*s) == '}') {
+      if ((*s) == '}') {  //右括号
         right_bracket = s - buffer;
         ++ num_items;
       }
@@ -259,7 +259,7 @@ public:
     right_bracket = -1;
     int i = 0;
 
-    // loop over all the tokens and push them into the cache.
+    // loop over all the tokens and push them into the cache.将template中的字符放入缓存中
     for (s = buffer; *s; ++ s) {
       if ((*s) == '{') {
         left_bracket = s - buffer;
@@ -301,7 +301,7 @@ public:
     ret.clear();
 
     for (int i = 0; i < num_items; ++ i) {
-      ret.append( data.at(items[i]) );
+      ret.append( data.at(items[i]) );//返回itesms[i]的键值value
     }
     return true;
   }
