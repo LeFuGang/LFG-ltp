@@ -40,3 +40,4 @@ int main(int argc, char * argv[]) {
   segmentor_release_segmentor(engine);
   return 0;
 }
+
