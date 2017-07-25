@@ -11,25 +11,25 @@ using strutils::startswith;
 int PartialSegmentationUtils::split_by_partial_tag(
     const std::string& line,
     std::vector<std::string>& words) {
-  size_t offset1 = line.find(__partial_start__);
+  size_t offset1 = line.find(__partial_start__);//size_t的取值range是目标平台下最大可能的数组尺寸
   size_t offset2 = line.find(__word_start__);
 
-  if (offset1 == std::string::npos && offset2 == std::string::npos) {
+  if (offset1 == std::string::npos && offset2 == std::string::npos) {//npos 是一个常数，用来表示不存在的位置，
     // 0 representing no partial tags. split with the original tags.
-    words = split(line);
+    words = split(line);//将句子切分为一个个的词
     return 0;
   }
 
-  size_t offset = 0;
-  size_t prelude = 0, coda = 0, len_start_tag = 0, len_end_tag = 0;
+  size_t offset = 0; //偏移量
+  size_t prelude = 0, coda = 0, len_start_tag = 0, len_end_tag = 0;//prelude序幕、coda结尾
 
   while (offset < line.length()) {
     prelude = (offset1 < offset2 ? offset1 : offset2);
-    std::string word = line.substr(offset, prelude - offset);
+    std::string word = line.substr(offset, prelude - offset);//截取字符串从offset-（prelude - offset)
     if (word.length() > 0) { words.push_back( word ); }
 
     if (offset1 < offset2) {
-      coda = line.find(__partial_end__, prelude);
+      coda = line.find(__partial_end__, prelude);//find包含函数
       len_start_tag = __partial_start__.length();
       len_end_tag   = __partial_end__.length();
     } else {
