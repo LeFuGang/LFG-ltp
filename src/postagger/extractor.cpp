@@ -25,16 +25,18 @@ int Extractor::num_templates() {
 }
 
 Extractor::Extractor() {
-  templates.push_back(new Template("1={c-2}"));
-  templates.push_back(new Template("2={c-1}"));
-  templates.push_back(new Template("3={c-0}"));
-  templates.push_back(new Template("4={c+1}"));
-  templates.push_back(new Template("5={c+2}"));
-  templates.push_back(new Template("6={c-1}-{c-0}"));
-  templates.push_back(new Template("7={c-0}-{c+1}"));
-  templates.push_back(new Template("8={c-1}-{c+1}"));
-  templates.push_back(new Template("12={prefix}"));
-  templates.push_back(new Template("13={suffix}"));
+   templates.push_back(new Template("1={c-3}"));
+  templates.push_back(new Template("2={c-2}"));
+  templates.push_back(new Template("3={c-1}"));
+  templates.push_back(new Template("4={c-0}"));
+  templates.push_back(new Template("5={c+1}"));
+  templates.push_back(new Template("6={c+2}"));
+   templates.push_back(new Template("7={c+3}"));
+  templates.push_back(new Template("8={c-1}-{c-0}"));
+  templates.push_back(new Template("9={c-0}-{c+1}"));
+  templates.push_back(new Template("10={c-1}-{c+1}"));
+  templates.push_back(new Template("11={prefix}"));
+  templates.push_back(new Template("12={suffix}"));
 }
 
 Extractor::~Extractor() {
@@ -50,12 +52,14 @@ int Extractor::extract1o(const Instance& inst, int idx,
   decode(inst.forms[idx], chars);
 
   Template::Data data;
-
+  
+   data.set( "c-3",  (idx-3 < 0 ? BOS : inst.forms[idx-3]) ); 
   data.set( "c-2",  (idx-2 < 0 ? BOS : inst.forms[idx-2]) ); 
   data.set( "c-1",  (idx-1 < 0 ? BOS : inst.forms[idx-1]) );
   data.set( "c-0",  inst.forms[idx] );
   data.set( "c+1",  (idx+1 >= len ? EOS : inst.forms[idx+1]) );
   data.set( "c+2",  (idx+2 >= len ? EOS : inst.forms[idx+2]) );
+   data.set( "c+3",  (idx+3 >= len ? EOS : inst.forms[idx+3]) ); 
   int length = inst.forms[idx].size(); length = (length < 5 ? length : 5);
   data.set( "len",  to_str(length));
 
@@ -63,13 +67,13 @@ int Extractor::extract1o(const Instance& inst, int idx,
   feat.reserve(1024);
   int N = templates.size();
 
-  // 1-9 basic feature
+  // 1-9 basic feature基本特征
   for (int i = 0; i < N - 2; ++ i) {
     templates[i]->render(data, feat);
     cache[i].push_back(feat);
   }
 
-  // 12-13 prefix and suffix feature.
+  // 12-13 prefix and suffix feature.提取部首的前后缀特征
   for (int i = N - 2; i < N; ++ i) {
     std::string prefix = "";
     std::string suffix = "";
