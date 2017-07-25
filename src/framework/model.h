@@ -57,7 +57,8 @@ public:
   bool load(const char* model_name, std::istream& ifs) {
     char chunk[128];
     ifs.read(chunk, 128);
-
+   
+    //比较两个字符串的大小
     if (strcmp(chunk, model_name)) {
       return false;
     }
