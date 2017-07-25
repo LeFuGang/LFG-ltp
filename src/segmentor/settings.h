@@ -11,7 +11,7 @@ const std::string EOS = "_eos_";
 const std::string BOT = "_bot_";
 const std::string EOT = "_eot_";
 
-const std::string __dummy__     = "dummy";
+const std::string __dummy__     = "dummy";//假的
 const std::string __b__         = "b";
 const std::string __i__         = "i";
 const std::string __e__         = "e";
