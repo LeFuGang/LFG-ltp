@@ -37,8 +37,8 @@ void Configuration::load_xml(const string& filename)
 void Configuration::trim(string& line)
 {
     size_t begin, end;
-    begin = line.find_first_not_of(" \t\n");
-    end   = line.find_last_not_of(" \t\n");
+    begin = line.find_first_not_of(" \t\n");// find_first_not_of() 在指定字符串中查找第一个不任意匹配子串中字符的位置
+    end   = line.find_last_not_of(" \t\n");//在字符串中查找最后一个与str中的字符都不匹配的字符，返回它的位置。搜索从index逆向开始。如果没找到就返回string::nops
     line  = line.substr(begin,end+1-begin);
 }
 
@@ -131,4 +131,3 @@ bool Configuration::is_nounPOS(const string& POS) const
     }
     return false;
 }
-
