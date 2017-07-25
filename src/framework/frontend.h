@@ -18,7 +18,7 @@ enum FrontendMode {
 
 class Frontend {
 protected:
-  FrontendMode mode;  //! The frontend model.
+  FrontendMode mode;  //! The frontend model.前端模型/训练/测试/核心转移，指针问题
 public:
   //! The constructor
   Frontend(const FrontendMode& _mode): mode(_mode) {}
