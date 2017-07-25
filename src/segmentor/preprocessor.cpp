@@ -11,7 +11,7 @@ using strutils::trim_copy;
 //int Preprocessor::CHAR_ENG = strutils::chartypes::CHAR_PUNC+1;
 //int Preprocessor::CHAR_URI = strutils::chartypes::CHAR_PUNC+2;
 
-int Preprocessor::HAS_SPACE_ON_LEFT  = (1<<3);
+int Preprocessor::HAS_SPACE_ON_LEFT  = (1<<3);//0000，0001向左移3位，既0000，0100，下面的类似
 int Preprocessor::HAS_SPACE_ON_RIGHT = (1<<4);
 int Preprocessor::HAS_ENG_ON_LEFT    = (1<<5);
 int Preprocessor::HAS_ENG_ON_RIGHT   = (1<<6);
@@ -142,7 +142,7 @@ int Preprocessor::preprocess(const std::string& sentence,
     std::vector<std::string>& raw_forms,
     std::vector<std::string>& forms,
     std::vector<int>& chartypes) const {
-  std::string sent = trim_copy(sentence);
+  std::string sent = trim_copy(sentence); //去除空格
   // std::cerr << sent << std::endl;
 
   size_t len = sent.size();
@@ -153,9 +153,9 @@ int Preprocessor::preprocess(const std::string& sentence,
   size_t ret = 0;
   std::vector<int> flags(len, NONE);
 
-  URI(sent, flags);
-  special_token(sent, flags);
-  English(sent, flags);
+  URI(sent, flags); //url
+  special_token(sent, flags); //特殊词
+  English(sent, flags); //英文
 
   std::string form = "";
   int left_status = 0;
