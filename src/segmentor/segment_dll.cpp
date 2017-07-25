@@ -113,6 +113,7 @@ public:
     return true;
   }
 
+ //分词流程
   int segment(const char* str, std::vector<std::string> & words) {
     ltp::framework::ViterbiFeatureContext ctx, bs_ctx;
     ltp::framework::ViterbiScoreMatrix scm;
@@ -120,7 +121,7 @@ public:
     ltp::segmentor::Instance inst;
  
     int ret = preprocessor.preprocess(str, inst.raw_forms, inst.forms,
-      inst.chartypes);
+      inst.chartypes);   //预处理
 
     if (-1 == ret || 0 == ret) {
       words.clear();
@@ -129,17 +130,17 @@ public:
 
     ltp::segmentor::SegmentationConstrain con;
     con.regist(&(inst.chartypes));
-    build_lexicon_match_state(lexicons, &inst);
-    extract_features(inst, model, &ctx, false);
-    extract_features(inst, bs_model, &bs_ctx, false);
-    calculate_scores(inst, (*bs_model), (*model), bs_ctx, ctx, true, &scm);
+    build_lexicon_match_state(lexicons, &inst); //词典匹配
+    extract_features(inst, model, &ctx, false); //提取特征
+    extract_features(inst, bs_model, &bs_ctx, false); //提取特征
+    calculate_scores(inst, (*bs_model), (*model), bs_ctx, ctx, true, &scm); //计算矩阵参数值，发射和转移矩阵
 
     // allocate a new decoder so that the segmentor support multithreaded
     // decoding. this modification was committed by niuox
-    decoder.decode(scm, con, inst.predict_tagsidx);
-    build_words(inst.raw_forms, inst.predict_tagsidx, words);
+    decoder.decode(scm, con, inst.predict_tagsidx); //解码，得到路线
+    build_words(inst.raw_forms, inst.predict_tagsidx, words); //根据标签建立分词
 
-    return words.size();
+    return words.size(); 
   }
 
   int segment(const std::string& str, std::vector<std::string> & words) {
