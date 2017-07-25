@@ -20,7 +20,7 @@ bool SegmentationConstrain::can_emit(const size_t& i, const size_t& j) const {
   if (i == 0 && !(j == __b_id__ || j == __s_id__)) { return false; }
 
   if (chartypes) {
-    int flag = (chartypes->at(i)&0x07);
+    int flag = (chartypes->at(i)&0x07);   //与 0x07 = 0000 0111把3-7位清零
     if ((flag== Preprocessor::CHAR_ENG) || (flag == Preprocessor::CHAR_URI)) {
       return (j == __s_id__);
     }
@@ -85,4 +85,3 @@ void SegmentationViterbiDecoderWithMarginal::decode(const framework::ViterbiScor
 
 }     //  end for namespace segmentor
 }     //  end for namespace ltp
-
