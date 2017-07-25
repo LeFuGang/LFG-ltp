@@ -3,14 +3,22 @@
 #################################################
 cc=g++
 ccflags=-O2
-all: cws \
+all: cpn \
+    cws \
 	pos \
 	par \
 	ner \
+	ner_train \
 	srl 
 
+cpn: cpn.cpp
+	${cc} ${ccflags} -g -o cpn cpn.cpp -I./ \
+		-I../include/ \
+		-I../thirdparty/boost/include \
+		-L../lib/ -lsegmentor -lboost_regex -lpostagger -lner
+
 cws: cws.cpp
-	${cc} ${ccflags} -o cws cws.cpp -I./ \
+	${cc} ${ccflags} -g -o cws cws.cpp -I./ \
 		-I../include/ \
 		-I../thirdparty/boost/include \
 		-L../lib/ -lsegmentor -lboost_regex
@@ -24,6 +32,12 @@ ner: ner.cpp
 	${cc} ${ccflags} -o ner ner.cpp -I./ \
 		-I../include \
 		-L../lib/ -lner
+
+ner_train: ner_train.cpp ner_process.cpp
+	${cc} ${ccflags} -o ner_train ner_train.cpp ner_process.cpp -I./ \
+		-I../include \
+		-L../lib/ -lner
+
 
 par: par.cpp
 	${cc} ${ccflags} -o par par.cpp -I./ \
