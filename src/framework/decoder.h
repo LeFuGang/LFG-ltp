@@ -165,6 +165,7 @@ public:
     get_result(output);
   }
 
+//维特比算法的解码
   void decode(const ViterbiScoreMatrix& scm,
       const ViterbiDecodeConstrain& con,
       std::vector<int>& output) {
