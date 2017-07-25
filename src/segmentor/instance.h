@@ -24,6 +24,7 @@ public:
   std::vector< std::string >  forms; // characters after preprocessing
   std::vector< int >          chartypes; // types of characters, digit, text, punct etc.
   std::vector< int >          lexicon_match_state;
+ // std::vector< int >          
   std::vector< std::string >  tags; // tags of characters, {B I E S}
   std::vector< int >          tagsidx; // int tags
   std::vector< std::string >  predict_tags;
