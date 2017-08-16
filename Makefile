@@ -38,3 +38,4 @@ ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 	@ $(MAKE) -C build $(MAKECMDGOALS)
 
 endif
+new
